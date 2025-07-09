@@ -1,23 +1,62 @@
 rg="vnet-rg"
-routeTable="web-to-app-rt"
+location="centralindia"
+lb_name="my-loadbalancer"
 
-az network route-table create \
-  --name $routeTable \
+public_ip_name="lb-public-ip"
+frontend_ip_name="lb-frontend"
+backend_pool_name="lb-backend-pool"
+probe_name="http-probe"
+rule_name="http-rule"
+
+nic1="web-vmVMNic"
+ipconfig_name="ipconfigweb-vm" 
+
+echo "🔵 Step 1: Creating Public IP for Load Balancer..."
+az network public-ip create \
   --resource-group $rg \
-  --location centralindia
+  --name $public_ip_name \
+  --sku Standard \
+  --location $location \
+  --allocation-method static
 
-az network route-table route create \
+
+echo "🔵 Step 2: Creating Load Balancer..."
+az network lb create \
   --resource-group $rg \
-  --route-table-name $routeTable \
-  --name web-to-app \
-  --address-prefix 10.0.2.0/24 \
-  --next-hop-type VirtualAppliance \
-  --next-hop-ip-address 10.0.2.4  
-
-az network vnet subnet update \
-  --vnet-name vnet-demo \
-  --name web-subnet \
+  --name $lb_name \
+  --location $location \
+  --sku Standard \
+  --public-ip-address $public_ip_name \
+  --frontend-ip-name $frontend_ip_name \
+  --backend-pool-name $backend_pool_name
+echo "🔵 Step 3: Creating HTTP Health Probe on port 80..."
+az network lb probe create \
   --resource-group $rg \
-  --route-table $routeTable
+  --lb-name $lb_name \
+  --name $probe_name \
+  --protocol Tcp \
+  --port 80
 
-echo "✅ Route table created and attached to web-subnet."
+echo "🔵 Step 4: Creating Load Balancer Rule for port 80..."
+az network lb rule create \
+  --resource-group $rg \
+  --lb-name $lb_name \
+  --name $rule_name \
+  --protocol Tcp \
+  --frontend-port 80 \
+  --backend-port 80 \
+  --frontend-ip-name $frontend_ip_name \
+  --backend-pool-name $backend_pool_name \
+  --probe-name $probe_name \
+  --idle-timeout 4 \
+  --enable-tcp-reset true
+
+echo "🔵 Step 5: Attaching NIC ($nic1) to Backend Pool..."
+az network nic ip-config address-pool add \
+  --address-pool $backend_pool_name \
+  --ip-config-name $ipconfig_name \
+  --nic-name $nic1 \
+  --resource-group $rg \
+  --lb-name $lb_name
+
+echo "✅ Load Balancer setup complete!"
