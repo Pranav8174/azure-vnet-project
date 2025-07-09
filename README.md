@@ -41,25 +41,7 @@ Resource Group
 - Network Security Groups
 - Linux/Windows VMs
 - Git & GitHub
-
-Project Structure
-azure-vnet-project/
-│
-├── scripts/
-│ ├── 1-create-resource-group.sh
-│ ├── 2-create-vnet-subnets.sh
-│ ├── 3-deploy-nsgs.sh
-│ ├── 4-deploy-vms.sh
-│ ├── 5-configure-bastion.sh
-│ └── 6-setup-load-balancer.sh
-│
-├── architecture-diagram.png
-└── README.md
-
-Screenshots
-
-
-
+- Route Tables
 
 
 Author
