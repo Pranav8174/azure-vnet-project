@@ -5,25 +5,7 @@ Project Overview
 
 This project showcases how to build a three-tier cloud infrastructure using Azure networking services. It includes setting up a resource group, virtual network, subnets, security rules, load balancer, and secure access via Azure Bastion.
 
-Architecture Diagram
-
-azure-vnet (10.0.0.0/16)
-│
-├── Web Subnet (10.0.1.0/24)
-│ ├── NSG: nsg-web
-│ ├── VM: web-vm-1 (via Load Balancer)
-│ └── Load Balancer: lb-web (HTTP/HTTPS entry point)
-│
-├── App Subnet (10.0.2.0/24)
-│ ├── NSG: nsg-app
-│ └── VM: app-vm-1 (internal only)
-│
-├── DB Subnet (10.0.3.0/24)
-│ ├── NSG: nsg-db
-│ └── VM: db-vm-1 (internal only)
-│
-└── AzureBastionSubnet (10.0.255.0/27)
-└── Azure Bastion Host (secure RDP/SSH access)
+Architecture Diagram![archeticure](https://github.com/user-attachments/assets/bd1a808c-cad5-484a-b4af-97d496daf58d)
 
 Resource Group  
 |  
