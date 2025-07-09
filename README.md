@@ -5,7 +5,9 @@ Project Overview
 
 This project showcases how to build a three-tier cloud infrastructure using Azure networking services. It includes setting up a resource group, virtual network, subnets, security rules, load balancer, and secure access via Azure Bastion.
 
-Architecture Diagram![archeticure](https://github.com/user-attachments/assets/bd1a808c-cad5-484a-b4af-97d496daf58d)
+
+Architecture Diagram
+ ![archeticure](https://github.com/user-attachments/assets/bd1a808c-cad5-484a-b4af-97d496daf58d)
 
 Resource Group  
 |  
